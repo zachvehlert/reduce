@@ -7,16 +7,10 @@ Examples:
 */
 
 function extractValue(arr, key) {
-    newArr = arr.reduce(function (accum, currentValue) {
-        console.log(accum += currentValue[key])
-        return `${accum += currentValue[key]} `;
-    }, '')
-    newArr = newArr.split(' ');
-    newArr.pop();
-    console.log(newArr)
-    return newArr
-    
-   
+    return arr.reduce(function (accum, nextValue) {
+        accum.push(nextValue[key])
+        return accum
+    }, [])
 }
 
 /*
@@ -30,7 +24,23 @@ Examples:
     vowelCount('I Am awesome and so are you') // {i: 1, a: 4, e: 3, o: 3, u: 1};
 */
 
-function vowelCount(str) {}
+function vowelCount(str) {
+    let arr = str.toLowerCase().split('')
+    return arr.reduce(function (accum, nextValue) {
+        const vowelString = 'aeiou';
+        if (accum[nextValue] == undefined && vowelString.indexOf(nextValue) != -1) {
+            accum[nextValue] = 1;
+            return accum;
+        }
+        else if(accum[nextValue] != undefined){
+            accum[nextValue] += 1;
+            return accum
+        }
+        else {
+            return accum;
+        }
+    }, {})
+}
 
 /*
 Write a function called addKeyAndValue which accepts an array of objects and returns the array of objects passed to it with each object now including the key and value passed to the function.
@@ -47,7 +57,13 @@ Examples:
        ]
 */
 
-function addKeyAndValue(arr, key, value) {}
+function addKeyAndValue(arr, key, value) {
+    return arr.reduce(function (accum, nextValue) {
+        nextValue[key] = value;
+        accum.push(nextValue);
+        return accum;
+    }, [])
+}
 
 /*
 Write a function called partition which accepts an array and a callback and returns an array with two arrays inside of it. The partition function should run the callback function on each value in the array and if the result of the callback function at that specific value is true, the value should be placed in the first subarray. If the result of the callback function at that specific value is false, the value should be placed in the second subarray. 
@@ -71,4 +87,15 @@ Examples:
     partition(names, isLongerThanThreeCharacters) // [['Elie', 'Colt', 'Matt'], ['Tim']]
 */
 
-function partition(arr, callback) {}
+function partition(arr, callback) {
+    return arr.reduce(function (accum, nextValue) {
+        if (callback(nextValue) == true) {
+            accum[0].push(nextValue);
+            return accum;
+        }
+        else {
+            accum[1].push(nextValue);
+            return accum;
+        }
+    },[[],[]])
+}
